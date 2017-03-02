@@ -1,0 +1,15 @@
+h1, p{
+	color: skyblue;
+	text-align: center;
+	line-height: 30px;
+	font-size: 30px;
+}
+
+.btn {
+	position: relative;
+
+}
+
+body {
+	align-content: center;
+}
