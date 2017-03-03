@@ -51,8 +51,8 @@
 	]}
 
 	function startGame() {
-		gameState =  resetGameState();
-		onQuestion = loopEverything();
+		gameState = resetGameState();
+		onQuestion = resetQuestions();
 		
 
 	}
@@ -68,66 +68,18 @@
 		questionsRight: 0,
 		questionsWrong: 0,
 		missedQuestions: 0,
-		
-		}
-	}
-
-	function loopEverything() {
-		var knewOptions = gameState.currentOptions; 
-		$(".choices").empty();
-
-		var newquestions = ;
-		$(".question").empty();
-
-		for ( i = 0; i < newquestions.length; i++) {
-
-			gameState.currentQuestion = newquestions[i];
-
-			$(".question").html(gameState.currentQuestion);
-			console.log(gameState);
-			loopEverything();
-
-				for ( i = 0; i < knewOptions.length; i++) {
-				
-					var a = $("<button>");
-
-					a.addClass("choose-one");
-					a.attr("data-name", knewOptions[i]);
-					a.text(knewOptions[i]);
-
-					$(".choices").append(a);
-
-					nextQuestion();
-
-						function nextQuestion() {
-								var nextQuestion = setInterval(function() {
-									gameState.currentQuestion = knewOptions[i];
-									gameState.currentAnswer = knewOptions[i];
-									gameState.currentOptions = knewOptions[i];
-									
-									resetQuestions();
-									countDown();
-									clearTimeout(nextQuestion);
-								}, 1000*3)
-						}
-
-					}
-
-			$(".question").append(gameState.currentQuestion);
 
 		}
 	}
 
-/*
+
 	function resetQuestions() {
 		$(".question").html(gameState.currentQuestion);
 		$(".choices").html(newOption());
 		console.log(gameState);
-		loopEverything();
 	}
-*/
 
-/*
+
 	function newOption() {
 		var knewOptions = gameState.currentOptions; 
 		$(".choices").empty();
@@ -144,7 +96,21 @@
 
 		}
 	}	
-*/
+
+	// after 5 seconds show next question without user input. 
+	// 3 seconds for testing phase
+	function nextQuestion() {
+		var nextQuestion = setInterval(function() {
+			gameState.currentQuestion = questions.possibleQuestions[1].question;
+			gameState.currentAnswer = questions.possibleQuestions[1].answer;
+			gameState.currentOptions = questions.possibleQuestions[1].options;
+			$(".question").html(questions.possibleQuestions[1].question);
+			resetingQuestions();
+			countDown();
+			clearTimeout(nextQuestion);
+		}, 1000*3)
+	}
+
 
 	//needs to count if right or wrong or if not answered. 
 
@@ -179,6 +145,143 @@
 		nextQuestion();
 	}
 
+	function resetingQuestions() {
+		$(".question").html(gameState.currentQuestion);
+		$(".choices").html(theNewOption());
+		console.log(gameState);
+	}
+
+	function theNewOption() {
+		var knewOptions = gameState.currentOptions; 
+		$(".choices").empty();
+
+		for ( i = 0; i < knewOptions.length; i++) {
+			
+			var a = $("<button>");
+
+			a.addClass("choose-one");
+			a.attr("data-name", knewOptions[i]);
+			a.text(knewOptions[i]);
+
+			$(".choices").append(a);
+
+		}
+	}	
+
+	// after 5 seconds show next question without user input. 
+	// 3 seconds for testing phase
+	function theNextQuestion() {
+		var nextQuestion = setInterval(function() {
+			gameState.currentQuestion = questions.possibleQuestions[1].question;
+			gameState.currentAnswer = questions.possibleQuestions[1].answer;
+			gameState.currentOptions = questions.possibleQuestions[1].options;
+			$(".question").html(questions.possibleQuestions[1].question);
+			resetingQuestions();
+			countDown();
+			clearTimeout(nextQuestion);
+		}, 1000*3)
+	}
+
+	//needs to count if right or wrong or if not answered. 
+
+	// if player selects correct answer, show congratz. 
+	function answerCorrect() {
+		$(".timer").html("CORRECT!");
+		$(".choices").html(gameState.currentAnswer);
+		stopTimer();
+		gameState.questionsRight++;
+		console.log(gameState);
+		nextQuestion();
+	}
+
+
+	// if selected answer is wrong, tell them and show correct answer. 
+	function answerWrong() {
+		$(".timer").html("WRONG!!!");
+		$(".choices").html(gameState.currentAnswer);
+		stopTimer()
+		gameState.questionsWrong++;
+		nextQuestion();
+	}
+
+
+	// if time runs out, show correct answer and continue. 
+
+	function ranOutOfTime(){
+		$(".timer").html("Time ran out!!");
+		$(".choices").html(gameState.currentAnswer);
+		gameState.missedQuestions++;
+		console.log(gameState);
+		nextQuestion();
+	}
+
+
+	function newOption() {
+		var knewOptions = gameState.currentOptions; 
+		$(".choices").empty();
+
+		for ( i = 0; i < knewOptions.length; i++) {
+			
+			var a = $("<button>");
+
+			a.addClass("choose-one");
+			a.attr("data-name", knewOptions[i]);
+			a.text(knewOptions[i]);
+
+			$(".choices").append(a);
+
+		}
+	}	
+
+	// after 5 seconds show next question without user input. 
+	// 3 seconds for testing phase
+	function nextQuestion() {
+		var nextQuestion = setInterval(function() {
+			gameState.currentQuestion = questions.possibleQuestions[1].question;
+			gameState.currentAnswer = questions.possibleQuestions[1].answer;
+			gameState.currentOptions = questions.possibleQuestions[1].options;
+			$(".question").html(questions.possibleQuestions[1].question);
+			resetQuestions();
+			countDown();
+			clearTimeout(nextQuestion);
+		}, 1000*3)
+	}
+
+	//needs to count if right or wrong or if not answered. 
+
+	// if player selects correct answer, show congratz. 
+	function answerCorrect() {
+		$(".timer").html("CORRECT!");
+		$(".choices").html(gameState.currentAnswer);
+		stopTimer();
+		gameState.questionsRight++;
+		console.log(gameState);
+		nextQuestion();
+	}
+
+
+	// if selected answer is wrong, tell them and show correct answer. 
+	function answerWrong() {
+		$(".timer").html("WRONG!!!");
+		$(".choices").html(gameState.currentAnswer);
+		stopTimer()
+		gameState.questionsWrong++;
+		nextQuestion();
+	}
+
+
+	// if time runs out, show correct answer and continue. 
+
+	function ranOutOfTime(){
+		$(".timer").html("Time ran out!!");
+		$(".choices").html(gameState.currentAnswer);
+		gameState.missedQuestions++;
+		console.log(gameState);
+		nextQuestion();
+	}
+
+
+
 	//final screen showing the tallies of correct and inccorect and missed answers.
 	// with restart button to start the game over again.  
 	function endOfQuestions() {
@@ -192,7 +295,7 @@
 	//Event Management
 	//==============
 
-	//function for time management.
+
 	function countDown() {
 		var betterHurry = setInterval(function() {
 			console.log(gameState.timeLeft);
@@ -217,26 +320,20 @@
 
 
 
-// after 5 seconds show next question without user input. 
-// 3 seconds for testing phase
-/*	function nextQuestion() {
-		var nextQuestion = setInterval(function() {
-			gameState.currentQuestion = questions.possibleQuestions[1].question;
-			gameState.currentAnswer = questions.possibleQuestions[1].answer;
-			gameState.currentOptions = questions.possibleQuestions[1].options;
-			$(".question").html(questions.possibleQuestions[1].question);
-			resetQuestions();
-			countDown();
-			clearTimeout(nextQuestion);
-		}, 1000*3)
-	}
-*/
+
+
 
 
 	//==============
 	//Function and Logic
 	//==============
-	
+
+
+
+	//function for time management.
+	function timeClock() {
+		$(".timer").html("Time Left: " + betterHurry);
+	}
 
 window.onload = function() {
 
@@ -271,19 +368,7 @@ window.onload = function() {
 	//==============
 	//Display Management
 	//==============
-	/*
-	function displayTrivia() {
-		// you want one question to show until after it's answered.
-		// then another question appears and so forth 
-		// until you've answered all questions.
-		gameState.currentQuestion = function() {
-			for (i = 0; i < questions.lenth; i++){
-				$().append(gameState.currentQuestion);
-				$().append(gameState.currentOptions);		
-			}
-		}
-	}
-	*/
+	
 
 
 	//==============
