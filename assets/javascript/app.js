@@ -51,8 +51,8 @@
 	]}
 
 	function startGame() {
-		gameState = resetGameState();
-		onQuestion = resetQuestions();
+		gameState =  resetGameState();
+		onQuestion = loopEverything();
 		
 
 	}
@@ -68,21 +68,66 @@
 		questionsRight: 0,
 		questionsWrong: 0,
 		missedQuestions: 0,
+		
+		}
+	}
+
+	function loopEverything() {
+		var knewOptions = gameState.currentOptions; 
+		$(".choices").empty();
+
+		var newquestions = ;
+		$(".question").empty();
+
+		for ( i = 0; i < newquestions.length; i++) {
+
+			gameState.currentQuestion = newquestions[i];
+
+			$(".question").html(gameState.currentQuestion);
+			console.log(gameState);
+			loopEverything();
+
+				for ( i = 0; i < knewOptions.length; i++) {
+				
+					var a = $("<button>");
+
+					a.addClass("choose-one");
+					a.attr("data-name", knewOptions[i]);
+					a.text(knewOptions[i]);
+
+					$(".choices").append(a);
+
+					nextQuestion();
+
+						function nextQuestion() {
+								var nextQuestion = setInterval(function() {
+									gameState.currentQuestion = knewOptions[i];
+									gameState.currentAnswer = knewOptions[i];
+									gameState.currentOptions = knewOptions[i];
+									
+									resetQuestions();
+									countDown();
+									clearTimeout(nextQuestion);
+								}, 1000*3)
+						}
+
+					}
+
+			$(".question").append(gameState.currentQuestion);
 
 		}
 	}
 
-	function resetCurrentOptions() {
-
-	}
-
-
+/*
 	function resetQuestions() {
 		$(".question").html(gameState.currentQuestion);
 		$(".choices").html(newOption());
 		console.log(gameState);
+		loopEverything();
 	}
+*/
 
+/*
 	function newOption() {
 		var knewOptions = gameState.currentOptions; 
 		$(".choices").empty();
@@ -99,7 +144,7 @@
 
 		}
 	}	
-
+*/
 
 	//needs to count if right or wrong or if not answered. 
 
@@ -147,7 +192,7 @@
 	//Event Management
 	//==============
 
-
+	//function for time management.
 	function countDown() {
 		var betterHurry = setInterval(function() {
 			console.log(gameState.timeLeft);
@@ -174,7 +219,7 @@
 
 // after 5 seconds show next question without user input. 
 // 3 seconds for testing phase
-	function nextQuestion() {
+/*	function nextQuestion() {
 		var nextQuestion = setInterval(function() {
 			gameState.currentQuestion = questions.possibleQuestions[1].question;
 			gameState.currentAnswer = questions.possibleQuestions[1].answer;
@@ -185,18 +230,13 @@
 			clearTimeout(nextQuestion);
 		}, 1000*3)
 	}
+*/
 
-	function gameOver() {
-
-	}
 
 	//==============
 	//Function and Logic
 	//==============
-	//function for time management.
-	function timeClock() {
-		$(".timer").html("Time Left: " + betterHurry);
-	}
+	
 
 window.onload = function() {
 
