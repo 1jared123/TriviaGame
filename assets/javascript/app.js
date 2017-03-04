@@ -17,12 +17,38 @@
 
   }
 
+
   var options = ["Iron Man","Bat Man", "Hulk", "Iron Man 3"]
+
+	var options = ["Iron Man", "Captain America", "Iron Man 3", "Hulk"]
+	// $(".btn").on("click", function() {
+	// 	$(".timer").html("<h1> It's working! </h1>");
+	// });
+
+	//var for questions. 
+	//Most likely an object set up with subsections titled questions, and answers. 
+	var questions = [
+
+		{
+		question: "Who's the richest superhero?",
+		answer: "Iron Man",
+		},
+
+		{
+		question: "Who's the the largest Marvel Superhero?",
+		answer: "Hulk",
+		},
+
+		{
+		question: "What's the best Marvel Movie ever made?",
+		answer: "Iron Man 3",
+		}
 
   
   // $(".btn").on("click", function() {
   //  $(".timer").html("<h1> It's working! </h1>");
   // });
+
 
   //var for questions. 
   //Most likely an object set up with subsections titled questions, and answers. 
@@ -46,11 +72,11 @@
 
   ]
 
+	]
+
 	function startGame() {
 		gameState = resetGameState();
 		onQuestion = resetQuestions();
-		
-
 	}
 	
 
@@ -72,7 +98,9 @@
 		$(".question").html(gameState.currentQuestion);
 		$(".choices").html(newOption());
 		console.log(gameState);
+		choicesChosen();
 	}
+
 
 	function newOption() {
 		var knewOptions = options; 
@@ -90,6 +118,20 @@
 
 		}
 	}	
+
+	// after 5 seconds show next question without user input. 
+	// 3 seconds for testing phase
+	function nextQuestion() {
+		var nextQuestion = setInterval(function() {
+			gameState.currentQuestion = questions[1].question;
+			gameState.currentAnswer = questions[1].answer;
+			gameState.timeLeft = 30;
+			$(".question").html(questions[1].question);
+			resetingQuestions();
+			countDown();
+			clearTimeout(nextQuestion);
+		}, 1000*3)
+	}
 
 
 	//needs to count if right or wrong or if not answered. 
@@ -125,10 +167,111 @@
 		nextQuestion();
 	}
 
+	function resetingQuestions() {
+		$(".question").html(gameState.currentQuestion);
+		$(".choices").html(newOption());
+		console.log(gameState);
+		choicesToChoose();
+	}
+
+	function resetingTheQuestions() {
+		$(".question").html(gameState.currentQuestion);
+		$(".choices").html(newOption());
+		console.log(gameState);
+		choicesChoices();
+	}
+
+	// after 5 seconds show next question without user input. 
+	// 3 seconds for testing phase
+	function theNextQuestion() {
+		var nextQuestion = setInterval(function() {
+			gameState.currentQuestion = questions[2].question;
+			gameState.currentAnswer = questions[2].answer;
+			gameState.timeLeft = 30;
+			$(".question").html(questions[2].question);
+			resetingTheQuestions();
+			countDown();
+			clearTimeout(nextQuestion);
+		}, 1000*3)
+	}
+
+	//needs to count if right or wrong or if not answered. 
+
+	// if player selects correct answer, show congratz. 
+	function answerIsCorrect() {
+		$(".timer").html("CORRECT!");
+		$(".choices").html(gameState.currentAnswer);
+		stopTimer();
+		gameState.questionsRight++;
+		console.log(gameState);
+		theNextQuestion();
+	}
+
+
+	// if selected answer is wrong, tell them and show correct answer. 
+	function answerIsWrong() {
+		$(".timer").html("WRONG!!!");
+		$(".choices").html(gameState.currentAnswer);
+		stopTimer()
+		gameState.questionsWrong++;
+		theNextQuestion();
+	}
+
+
+	// if time runs out, show correct answer and continue. 
+
+	function ranOutsOfTime(){
+		$(".timer").html("Time ran out!!");
+		$(".choices").html(gameState.currentAnswer);
+		gameState.missedQuestions++;
+		console.log(gameState);
+		theNextQuestion();
+	}
+
+	//needs to count if right or wrong or if not answered. 
+
+	// if player selects correct answer, show congratz. 
+	function answerWasCorrect() {
+		$(".timer").html("CORRECT!");
+		$(".choices").html(gameState.currentAnswer);
+		stopTimer();
+		gameState.questionsRight++;
+		console.log(gameState);
+		endOfQuestions();
+	}
+
+
+	// if selected answer is wrong, tell them and show correct answer. 
+	function answerWasWrong() {
+		$(".timer").html("WRONG!!!");
+		$(".choices").html(gameState.currentAnswer);
+		stopTimer()
+		gameState.questionsWrong++;
+		endOfQuestions();
+	}
+
+
+	// if time runs out, show correct answer and continue. 
+
+	function ranOutsOfTime(){
+		$(".timer").html("Time ran out!!");
+		$(".choices").html(gameState.currentAnswer);
+		gameState.missedQuestions++;
+		console.log(gameState);
+		endOfQuestions();
+	}
+
+
 	//final screen showing the tallies of correct and inccorect and missed answers.
 	// with restart button to start the game over again.  
 	function endOfQuestions() {
 		$(".results").html("Questions Wrong: " + gameState.questionsWrong + "<br>Questions Right: " + gameState.questionsRight + "<br>Questions Missed: " + gameState.missedQuestions);
+		countDown(stopTimer());
+		$(".restart-button").html("<div> <button type='button' class='btn btn-default reset'>Restart</button>" + 
+          "</div> <br>");
+		$(".reset").on("click", function() {
+			startGame();
+		})
 	}
 
 	// display one question at a time. start with first question. 
@@ -178,21 +321,64 @@
 		}
 	}
 
-	/* loop though all question, if all the questions have recieved an asnwer, then play gameOver.
-	*/
+	function choicesChosen() {
+			$(".choices").on("click", ".choose-one",  function() {
+
+				var selectedAnswer = $(this).attr('data-name');
 
 
 
+				console.log("CLICKED!");
+
+				if (selectedAnswer === gameState.currentAnswer) {
+					answerCorrect();
+				} else if (selectedAnswer !== gameState.currentAnswer) {
+					answerWrong();
+				}
+
+			})
+		}
+
+		function choicesToChoose() {
+			$(".choices").on("click", ".choose-one",  function() {
+
+				var selectedAnswer = $(this).attr('data-name');
+
+
+				console.log("CLICKED!");
+
+				if (selectedAnswer === gameState.currentAnswer) {
+					answerIsCorrect();
+				} else if (selectedAnswer !== gameState.currentAnswer) {
+					answerIsWrong();
+				}
+
+			})
+		}
+
+		function choicesChoices() {
+			$(".choices").on("click", ".choose-one",  function() {
+
+				var selectedAnswer = $(this).attr('data-name');
+
+
+				console.log("CLICKED!");
+
+				if (selectedAnswer === gameState.currentAnswer) {
+					answerWasCorrect();
+				} else if (selectedAnswer !== gameState.currentAnswer) {
+					answerWasWrong();
+				}
+
+			})
+		}
 
 
 
 	//==============
 	//Function and Logic
 	//==============
-	//function for time management.
-	function timeClock() {
-		$(".timer").html("Time Left: " + betterHurry);
-	}
+
 
 window.onload = function() {
 
@@ -204,21 +390,6 @@ window.onload = function() {
 			startGame();
 		});
 
-		$(".choices").on("click", ".choose-one",  function() {
-
-			var selectedAnswer = $(this).attr('data-name');
-
-
-			console.log("CLICKED!");
-
-			if (selectedAnswer === gameState.currentAnswer) {
-				answerCorrect();
-			} else if (selectedAnswer !== gameState.currentAnswer) {
-				answerWrong();
-			}
-
-		})
-
 		
 
 
@@ -227,19 +398,7 @@ window.onload = function() {
 	//==============
 	//Display Management
 	//==============
-	/*
-	function displayTrivia() {
-		// you want one question to show until after it's answered.
-		// then another question appears and so forth 
-		// until you've answered all questions.
-		gameState.currentQuestion = function() {
-			for (i = 0; i < questions.lenth; i++){
-				$().append(gameState.currentQuestion);
-				$().append(gameState.currentOptions);		
-			}
-		}
-	}
-	*/
+	
 
 
 	//==============
