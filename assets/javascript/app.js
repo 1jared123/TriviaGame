@@ -1,54 +1,50 @@
 
 	//==============
-	//Application State
-	//==============
-	var gameState, onQuestion, stopTimer
-	
+  //Application State
+  //==============
+  var gameState, onQuestion, stopTimer
+  
 
 
-	//gameState var for correct and wrong answers, counters for both. and the question. 
-	var gameState = {
-		currentQuestion: "",
-		currentAnswer: "",
-		currentOptions: "",
-		timeLeft: 30,
-		questionsRight: 0,
-		questionsWrong: 0,
-		missedQuestions: 0,
+  //gameState var for correct and wrong answers, counters for both. and the question. 
+  var gameState = {
+    currentQuestion: "",
+    currentAnswer: "",
+    timeLeft: 30,
+    questionsRight: 0,
+    questionsWrong: 0,
+    missedQuestions: 0,
 
-	}
+  }
 
-	
-	// $(".btn").on("click", function() {
-	// 	$(".timer").html("<h1> It's working! </h1>");
-	// });
+  var options = ["Iron Man","Bat Man", "Hulk", "Iron Man 3"]
 
-	//var for questions. 
-	//Most likely an object set up with subsections titled questions, and answers. 
-	var questions = {
+  
+  // $(".btn").on("click", function() {
+  //  $(".timer").html("<h1> It's working! </h1>");
+  // });
 
-		possibleQuestions: [
+  //var for questions. 
+  //Most likely an object set up with subsections titled questions, and answers. 
+  var questions = [
 
-		{
-		question: "Who's the richest superhero?",
-		answer: "Iron Man",
-		options: ["Iron Man", "Captain America", "Bat Man", "Hulk"] 
-		},
+    {
+    question: "Who's the richest superhero?",
+    answer: "Iron Man",
+    },
 
-		{
-		question: "Who's the the largest Marvel Superhero?",
-		answer: "Hulk",
-		options: ["Hulk", "Iron Man", "War Machine", "Black Widow"] 
-		},
+    {
+    question: "Who's the the largest Marvel Superhero?",
+    answer: "Hulk",
+    },
 
-		{
-		question: "What's the best Marvel Movie ever made?",
-		answer: "Iron Man 3",
-		options: ["Avengers ", "Hulk ", "Thor 2 ", "Iron Man 3 "] 
-		}
+    {
+    question: "What's the best Marvel Movie ever made?",
+    answer: "Iron Man 3",
+    }
 
 
-	]}
+  ]
 
 	function startGame() {
 		gameState = resetGameState();
@@ -61,19 +57,14 @@
 	function resetGameState() {  
 //need the first question to pop up with some options to choose the answer. 
 		return {
-		currentQuestion: questions.possibleQuestions[0].question,
-		currentAnswer: questions.possibleQuestions[0].answer,
-		currentOptions: questions.possibleQuestions[0].options,
+		currentQuestion: questions[0].question,
+		currentAnswer: questions[0].answer,
 		timeLeft: 30,
 		questionsRight: 0,
 		questionsWrong: 0,
 		missedQuestions: 0,
 
 		}
-	}
-
-	function resetCurrentOptions() {
-
 	}
 
 
@@ -84,7 +75,7 @@
 	}
 
 	function newOption() {
-		var knewOptions = gameState.currentOptions; 
+		var knewOptions = options; 
 		$(".choices").empty();
 
 		for ( i = 0; i < knewOptions.length; i++) {
@@ -141,7 +132,27 @@
 	}
 
 	// display one question at a time. start with first question. 
-	
+	// after 5 seconds show next question without user input. 
+	// 3 seconds for testing phase
+	function nextQuestion() {
+		debugger;
+		delete questions[0];
+		var nextQuestion = setInterval(function() {
+			gameState.currentQuestion = questions[0].question;
+			gameState.currentAnswer = questions[0].answer;
+			$(".question").html(questions[0].question);
+			resetQuestions();
+			countDown();
+			clearTimeout(nextQuestion);
+			gameOverYet();
+		}, 1000*3)
+	}
+
+	function gameOverYet() {
+		if (questions.length === 0) {
+			endOfQuestions();
+		}
+	}
 
 	//==============
 	//Event Management
@@ -172,23 +183,8 @@
 
 
 
-// after 5 seconds show next question without user input. 
-// 3 seconds for testing phase
-	function nextQuestion() {
-		var nextQuestion = setInterval(function() {
-			gameState.currentQuestion = questions.possibleQuestions[1].question;
-			gameState.currentAnswer = questions.possibleQuestions[1].answer;
-			gameState.currentOptions = questions.possibleQuestions[1].options;
-			$(".question").html(questions.possibleQuestions[1].question);
-			resetQuestions();
-			countDown();
-			clearTimeout(nextQuestion);
-		}, 1000*3)
-	}
 
-	function gameOver() {
 
-	}
 
 	//==============
 	//Function and Logic
