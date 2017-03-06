@@ -18,9 +18,7 @@
   }
 
 
-  var options = ["Iron Man","Bat Man", "Hulk", "Iron Man 3"]
-
-	var options = ["Iron Man", "Captain America", "Iron Man 3", "Hulk"]
+  var options = ["Iron Man","Bat Man", "Hulk", "Iron Man 3"];
 	// $(".btn").on("click", function() {
 	// 	$(".timer").html("<h1> It's working! </h1>");
 	// });
@@ -49,29 +47,6 @@
   //  $(".timer").html("<h1> It's working! </h1>");
   // });
 
-
-  //var for questions. 
-  //Most likely an object set up with subsections titled questions, and answers. 
-  var questions = [
-
-    {
-    question: "Who's the richest superhero?",
-    answer: "Iron Man",
-    },
-
-    {
-    question: "Who's the the largest Marvel Superhero?",
-    answer: "Hulk",
-    },
-
-    {
-    question: "What's the best Marvel Movie ever made?",
-    answer: "Iron Man 3",
-    }
-
-
-  ]
-
 	]
 
 	function startGame() {
@@ -97,7 +72,6 @@
 	function resetQuestions() {
 		$(".question").html(gameState.currentQuestion);
 		$(".choices").html(newOption());
-		console.log(gameState);
 		choicesChosen();
 	}
 
@@ -142,7 +116,6 @@
 		$(".choices").html(gameState.currentAnswer);
 		stopTimer();
 		gameState.questionsRight++;
-		console.log(gameState);
 		nextQuestion();
 	}
 
@@ -163,21 +136,18 @@
 		$(".timer").html("Time ran out!!");
 		$(".choices").html(gameState.currentAnswer);
 		gameState.missedQuestions++;
-		console.log(gameState);
 		nextQuestion();
 	}
 
 	function resetingQuestions() {
 		$(".question").html(gameState.currentQuestion);
 		$(".choices").html(newOption());
-		console.log(gameState);
 		choicesToChoose();
 	}
 
 	function resetingTheQuestions() {
 		$(".question").html(gameState.currentQuestion);
 		$(".choices").html(newOption());
-		console.log(gameState);
 		choicesChoices();
 	}
 
@@ -203,7 +173,6 @@
 		$(".choices").html(gameState.currentAnswer);
 		stopTimer();
 		gameState.questionsRight++;
-		console.log(gameState);
 		theNextQuestion();
 	}
 
@@ -224,7 +193,6 @@
 		$(".timer").html("Time ran out!!");
 		$(".choices").html(gameState.currentAnswer);
 		gameState.missedQuestions++;
-		console.log(gameState);
 		theNextQuestion();
 	}
 
@@ -236,7 +204,6 @@
 		$(".choices").html(gameState.currentAnswer);
 		stopTimer();
 		gameState.questionsRight++;
-		console.log(gameState);
 		endOfQuestions();
 	}
 
@@ -257,7 +224,6 @@
 		$(".timer").html("Time ran out!!");
 		$(".choices").html(gameState.currentAnswer);
 		gameState.missedQuestions++;
-		console.log(gameState);
 		endOfQuestions();
 	}
 

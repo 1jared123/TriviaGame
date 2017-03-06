@@ -68,7 +68,6 @@
 	function resetQuestions() {
 		$(".question").html(gameState.currentQuestion);
 		$(".choices").html(newOption());
-		console.log(gameState);
 		choicesChosen();
 	}
 
@@ -99,7 +98,6 @@
 			gameState.timeLeft = 30;
 			$(".question").html(questions[1].question);
 			resetingQuestions();
-			countDown();
 			clearTimeout(nextQuestion);
 		}, 1000*3)
 	}
@@ -111,9 +109,7 @@
 	function answerCorrect() {
 		$(".timer").html("CORRECT!");
 		$(".choices").html(gameState.currentAnswer);
-		stopTimer();
 		gameState.questionsRight++;
-		console.log(gameState);
 		nextQuestion();
 	}
 
@@ -122,7 +118,6 @@
 	function answerWrong() {
 		$(".timer").html("WRONG!!!");
 		$(".choices").html(gameState.currentAnswer);
-		stopTimer()
 		gameState.questionsWrong++;
 		nextQuestion();
 	}
@@ -134,21 +129,18 @@
 		$(".timer").html("Time ran out!!");
 		$(".choices").html(gameState.currentAnswer);
 		gameState.missedQuestions++;
-		console.log(gameState);
 		nextQuestion();
 	}
 
 	function resetingQuestions() {
 		$(".question").html(gameState.currentQuestion);
 		$(".choices").html(newOption());
-		console.log(gameState);
 		choicesToChoose();
 	}
 
 	function resetingTheQuestions() {
 		$(".question").html(gameState.currentQuestion);
 		$(".choices").html(newOption());
-		console.log(gameState);
 		choicesChoices();
 	}
 
@@ -161,7 +153,6 @@
 			gameState.timeLeft = 30;
 			$(".question").html(questions[2].question);
 			resetingTheQuestions();
-			countDown();
 			clearTimeout(nextQuestion);
 		}, 1000*3)
 	}
@@ -172,9 +163,7 @@
 	function answerIsCorrect() {
 		$(".timer").html("CORRECT!");
 		$(".choices").html(gameState.currentAnswer);
-		stopTimer();
 		gameState.questionsRight++;
-		console.log(gameState);
 		theNextQuestion();
 	}
 
@@ -183,7 +172,6 @@
 	function answerIsWrong() {
 		$(".timer").html("WRONG!!!");
 		$(".choices").html(gameState.currentAnswer);
-		stopTimer()
 		gameState.questionsWrong++;
 		theNextQuestion();
 	}
@@ -195,7 +183,6 @@
 		$(".timer").html("Time ran out!!");
 		$(".choices").html(gameState.currentAnswer);
 		gameState.missedQuestions++;
-		console.log(gameState);
 		theNextQuestion();
 	}
 
@@ -205,9 +192,7 @@
 	function answerWasCorrect() {
 		$(".timer").html("CORRECT!");
 		$(".choices").html(gameState.currentAnswer);
-		stopTimer();
 		gameState.questionsRight++;
-		console.log(gameState);
 		endOfQuestions();
 	}
 
@@ -216,7 +201,6 @@
 	function answerWasWrong() {
 		$(".timer").html("WRONG!!!");
 		$(".choices").html(gameState.currentAnswer);
-		stopTimer()
 		gameState.questionsWrong++;
 		endOfQuestions();
 	}
@@ -228,7 +212,6 @@
 		$(".timer").html("Time ran out!!");
 		$(".choices").html(gameState.currentAnswer);
 		gameState.missedQuestions++;
-		console.log(gameState);
 		endOfQuestions();
 	}
 
@@ -237,11 +220,14 @@
 	// with restart button to start the game over again.  
 	function endOfQuestions() {
 		$(".results").html("Questions Wrong: " + gameState.questionsWrong + "<br>Questions Right: " + gameState.questionsRight + "<br>Questions Missed: " + gameState.missedQuestions);
-		countDown(stopTimer());
+		stopTimer();
+		$(".restart-button").show();
 		$(".restart-button").html("<div> <button type='button' class='btn btn-default reset'>Restart</button>" + 
           "</div> <br>");
 		$(".reset").on("click", function() {
 			startGame();
+			$(".restart-button").hide();
+			$(".results").empty();
 		})
 	}
 
